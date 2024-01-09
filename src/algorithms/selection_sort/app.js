@@ -131,16 +131,17 @@ const timer = ms => new Promise(res => setTimeout(res, ms * time))  // Returns a
 
 
 
-// addEventListener('click', () => {
-// selection_sort(pos);
-// console.log(pos)
-// })
-
-document.querySelector('button').addEventListener('click', () => {
-    createElements(amount);  // 9 => 0-9 => 10 
-    selection_sort(pos);
-    console.log(pos)
+addEventListener('click', () => {
+    createElements(amount);  // 9 => 0-9 => 10
+selection_sort(pos);
+console.log(pos)
 })
+
+// document.querySelector('button').addEventListener('click', () => {
+//     createElements(amount);  // 9 => 0-9 => 10 
+//     selection_sort(pos);
+//     console.log(pos)
+// })
 
 
 
