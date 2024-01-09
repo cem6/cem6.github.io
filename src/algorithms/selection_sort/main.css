@@ -10,7 +10,7 @@ section {
     place-content: center;
     margin-bottom: 3em;
 
-    .inner {
+    main {
         display: flex;
         justify-content: space-around;
         justify-self: center;
@@ -27,3 +27,9 @@ section {
 }
 
 
+
+.range {
+    display: flex;
+    gap: 1em;
+    padding-top: 10px; 
+}

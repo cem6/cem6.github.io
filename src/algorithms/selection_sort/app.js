@@ -1,11 +1,48 @@
 
+/* -------------------- SETTINGS -------------------- */
+
+var amount = 20;  // amount of elements
+var time = 10/amount;  // time between steps multiplikator (default 1)
+
+const red = "rgba(255, 0, 0, 0.6)";
+const green = "rgba(0, 255, 0, 0.6)";
+const blue = "rgba(0, 0, 255, 0.6)";
+const gray = "rgb(211, 211, 211)";
+
+
+
+
+// sliders dont work
+let rangeInputSpeed = document.querySelector(".range-input-speed input");
+let rangeValueSpeed = document.querySelector(".range-input-speed .value div");
+
+rangeInputSpeed.addEventListener("input",function(){
+
+    amount = rangeInputSpeed.value;
+  console.log("speed: "+rangeInputSpeed.value)
+});
+
+let rangeInputAmount = document.querySelector(".range-input-amount input");
+let rangeValueAmount = document.querySelector(".range-input-amount .value div");
+
+rangeInputAmount.addEventListener("input",function(){
+
+  console.log("Amount: "+rangeInputAmount.value)
+});
+
+
+
+
+
+
+/* -------------------------------------------------- */
 
 
 /* -------------------- SETUP -------------------- */
+
 var pos = [];
 var elements = [];
 function createElements(amount) {
-
     pos = []; // array of n // n[7] returns number of block at position 7 
     for (let i = 0; i <= amount; i++) pos.push(i); // create array of n
     shuffleArray(pos); // shuffle n
@@ -26,7 +63,7 @@ function createElements(amount) {
 }
 
 function appendElements(amount) {
-    const div = document.querySelector('div');  // destination div
+    const div = document.querySelector('main');  // destination div
     for (let i = 0; i <= amount; i++) { // add elements to div IN ORDER OF POS
         const e = elements[pos[i]];  // get element from map
         div.appendChild(e);     // append element to div
@@ -39,18 +76,31 @@ function shuffleArray(array) {  // durstenfeld shuffle oder so
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+/* ----------------------------------------------- */
 
 
+/* -------------------- SORT -------------------- */
 
-function selection_sort() {
+async function selection_sort() {
     for (let i = 0; i < pos.length; i++) {
         let min = i;
         for (let j = i+1; j < pos.length; j++) {
+            elements[pos[j]].style.backgroundColor = red;           // not smaller 
             if (pos[j] < pos[min]) {
+                elements[pos[min]].style.backgroundColor = red;     // old smallest
+                elements[pos[j]].style.backgroundColor = blue;      // new smallest
                 min = j;
-            }
+            } 
+            await timer(300);
         }
+        await timer(1000);
         swap(i, min);
+
+        elements[pos[i]].style.backgroundColor = green;             // sorted partition
+        appendElements(amount); // 'redraw' elements with new order
+        resetColors(i, gray);   // set colors from i to end to gray
+
+        await timer(1000);
     }
 }
 
@@ -60,30 +110,36 @@ function swap(i, j) {
     pos[j] = temp;
 }
 
+function resetColors(b, color) {
+    for (let i = b+1; i < pos.length; i++) {
+        elements[pos[i]].style.backgroundColor = color;
+    }
+}
+
+const timer = ms => new Promise(res => setTimeout(res, ms * time))  // Returns a Promise that resolves after "ms" Milliseconds
+/* ---------------------------------------------- */
 
 
-// npx parcel index.html
+
+
+
+
 
 /* -------------------- MAIN -------------------- */ 
 
 
 
 
-createElements(9);  // 9 => 0-9 => 10 
 
+// addEventListener('click', () => {
+// selection_sort(pos);
+// console.log(pos)
+// })
 
-// colors
-const red = "rgba(255, 0, 0, 0.6)";
-const green = "rgba(0, 255, 0, 0.6)";
-const blue = "rgba(0, 0, 255, 0.6)";
-// elements[pos[0]].style.backgroundColor = red;   // element at pos 0 is red
-// elements[0].style.backgroundColor = "rgba(255, 155, 0, 0.6)";   // element with number 0 is orange
-
-addEventListener('click', () => {
-selection_sort(pos);
-console.log(pos)
-
-appendElements(10)
+document.querySelector('button').addEventListener('click', () => {
+    createElements(amount);  // 9 => 0-9 => 10 
+    selection_sort(pos);
+    console.log(pos)
 })
 
 
