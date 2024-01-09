@@ -12,23 +12,23 @@ const gray = "rgb(211, 211, 211)";
 
 
 
-// sliders dont work
-let rangeInputSpeed = document.querySelector(".range-input-speed input");
-let rangeValueSpeed = document.querySelector(".range-input-speed .value div");
+// // sliders dont work
+// let rangeInputSpeed = document.querySelector(".range-input-speed input");
+// let rangeValueSpeed = document.querySelector(".range-input-speed .value div");
 
-rangeInputSpeed.addEventListener("input",function(){
+// rangeInputSpeed.addEventListener("input",function(){
 
-    amount = rangeInputSpeed.value;
-  console.log("speed: "+rangeInputSpeed.value)
-});
+//     amount = rangeInputSpeed.value;
+//   console.log("speed: "+rangeInputSpeed.value)
+// });
 
-let rangeInputAmount = document.querySelector(".range-input-amount input");
-let rangeValueAmount = document.querySelector(".range-input-amount .value div");
+// let rangeInputAmount = document.querySelector(".range-input-amount input");
+// let rangeValueAmount = document.querySelector(".range-input-amount .value div");
 
-rangeInputAmount.addEventListener("input",function(){
+// rangeInputAmount.addEventListener("input",function(){
 
-  console.log("Amount: "+rangeInputAmount.value)
-});
+//   console.log("Amount: "+rangeInputAmount.value)
+// });
 
 
 
