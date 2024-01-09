@@ -1,8 +1,8 @@
 
 /* -------------------- SETTINGS -------------------- */
 
-var amount = 20;  // amount of elements
-var time = 10/amount;  // time between steps multiplikator (default 1)
+var speed = 3;  // time between steps multiplikator (default 1)
+var amount = 10;  // amount of elements
 
 const red = "rgba(255, 0, 0, 0.6)";
 const green = "rgba(0, 255, 0, 0.6)";
@@ -10,32 +10,47 @@ const blue = "rgba(0, 0, 255, 0.6)";
 const gray = "rgb(211, 211, 211)";
 
 
+// spped slider
+let rangeInputSpeed = document.querySelector(".range-input-speed input");
+let rangeValueSpeed = document.querySelector(".range-input-speed .value div");
+
+rangeInputSpeed.addEventListener("input",function(){
+    speed = rangeInputSpeed.value;
+    rangeValueSpeed.textContent = "speed: "+speed;  // change value
+});
+
+// amount slider
+let rangeInputAmount = document.querySelector(".range-input-amount input");
+let rangeValueAmount = document.querySelector(".range-input-amount .value div");
+
+rangeInputAmount.addEventListener("input",function(){
+    amount = rangeInputAmount.value;
+    rangeValueAmount.textContent = "amount: "+amount;   // change value
+});
 
 
-// // sliders dont work
-// let rangeInputSpeed = document.querySelector(".range-input-speed input");
-// let rangeValueSpeed = document.querySelector(".range-input-speed .value div");
+// popup
+function popup (text) {
+    var popup = document.getElementById('show');
+    var closeButton = document.getElementById('closeButton');
 
-// rangeInputSpeed.addEventListener("input",function(){
+    var div = document.getElementById('popupText');
+    div.appendChild(document.createElement('p').appendChild(document.createTextNode(text)));
 
-//     amount = rangeInputSpeed.value;
-//   console.log("speed: "+rangeInputSpeed.value)
-// });
+    popup.classList.add('show-popup');
 
-// let rangeInputAmount = document.querySelector(".range-input-amount input");
-// let rangeValueAmount = document.querySelector(".range-input-amount .value div");
-
-// rangeInputAmount.addEventListener("input",function(){
-
-//   console.log("Amount: "+rangeInputAmount.value)
-// });
-
-
-
-
+    closeButton.onclick = function(){
+    popup.classList.remove('show-popup');
+}
+}
 
 
 /* -------------------------------------------------- */
+
+
+
+
+
 
 
 /* -------------------- SETUP -------------------- */
@@ -64,6 +79,7 @@ function createElements(amount) {
 
 function appendElements(amount) {
     const div = document.querySelector('main');  // destination div
+    div.innerHTML = ''; // clear div
     for (let i = 0; i <= amount; i++) { // add elements to div IN ORDER OF POS
         const e = elements[pos[i]];  // get element from map
         div.appendChild(e);     // append element to div
@@ -79,11 +95,18 @@ function shuffleArray(array) {  // durstenfeld shuffle oder so
 /* ----------------------------------------------- */
 
 
+
+
+
+
+
+
 /* -------------------- SORT -------------------- */
 
 async function selection_sort() {
     for (let i = 0; i < pos.length; i++) {
         let min = i;
+        elements[pos[i]].style.backgroundColor = blue;              // current smallest
         for (let j = i+1; j < pos.length; j++) {
             elements[pos[j]].style.backgroundColor = red;           // not smaller 
             if (pos[j] < pos[min]) {
@@ -93,14 +116,14 @@ async function selection_sort() {
             } 
             await timer(300);
         }
-        await timer(1000);
+        await timer(600);
         swap(i, min);
 
         elements[pos[i]].style.backgroundColor = green;             // sorted partition
         appendElements(amount); // 'redraw' elements with new order
         resetColors(i, gray);   // set colors from i to end to gray
 
-        await timer(1000);
+        await timer(600);
     }
 }
 
@@ -116,7 +139,7 @@ function resetColors(b, color) {
     }
 }
 
-const timer = ms => new Promise(res => setTimeout(res, ms * time))  // Returns a Promise that resolves after "ms" Milliseconds
+const timer = ms => new Promise(res => setTimeout(res, ms / speed))  // Returns a Promise that resolves after Milliseconds
 /* ---------------------------------------------- */
 
 
@@ -125,23 +148,26 @@ const timer = ms => new Promise(res => setTimeout(res, ms * time))  // Returns a
 
 
 
+
+
 /* -------------------- MAIN -------------------- */ 
+popup('hallo');
 
 
 
 
 
-addEventListener('click', () => {
+
+document.querySelector('button').addEventListener('click', () => { 
+    
     createElements(amount);  // 9 => 0-9 => 10
-selection_sort(pos);
-console.log(pos)
-})
+    
+    selection_sort(pos);
+    console.log(pos)
+    
 
-// document.querySelector('button').addEventListener('click', () => {
-//     createElements(amount);  // 9 => 0-9 => 10 
-//     selection_sort(pos);
-//     console.log(pos)
-// })
+    
+})
 
 
 
